@@ -23,7 +23,7 @@ const PractitionerDashboard = () => {
     { 
       id: 1, 
       time: "09:00 AM", 
-      patient: "John Doe", 
+      patient: "Khushi", 
       therapy: "Basti", 
       duration: "60 min", 
       status: "completed", 
@@ -32,7 +32,7 @@ const PractitionerDashboard = () => {
     { 
       id: 2, 
       time: "10:30 AM", 
-      patient: "Sarah Johnson", 
+      patient: "Aaradhya", 
       therapy: "Nasya", 
       duration: "45 min", 
       status: "completed", 
@@ -41,7 +41,7 @@ const PractitionerDashboard = () => {
     { 
       id: 3, 
       time: "12:00 PM", 
-      patient: "Mike Chen", 
+      patient: "Rishika", 
       therapy: "Virechana", 
       duration: "90 min", 
       status: "completed", 
@@ -50,7 +50,7 @@ const PractitionerDashboard = () => {
     { 
       id: 4, 
       time: "02:00 PM", 
-      patient: "Emily Davis", 
+      patient: "Aarohi", 
       therapy: "Basti", 
       duration: "75 min", 
       status: "upcoming", 
@@ -59,7 +59,7 @@ const PractitionerDashboard = () => {
     { 
       id: 5, 
       time: "03:30 PM", 
-      patient: "Robert Wilson", 
+      patient: "Priyanshi", 
       therapy: "Raktamokshana", 
       duration: "60 min", 
       status: "upcoming", 
@@ -68,7 +68,7 @@ const PractitionerDashboard = () => {
     { 
       id: 6, 
       time: "05:00 PM", 
-      patient: "Lisa Martinez", 
+      patient: "Jahanvi", 
       therapy: "Nasya", 
       duration: "45 min", 
       status: "upcoming", 
@@ -84,10 +84,10 @@ const PractitionerDashboard = () => {
   };
 
   const recentPatients = [
-    { name: "John Doe", therapy: "Basti Series", progress: 80, sessions: "5/6", nextSession: "Jan 25" },
-    { name: "Sarah Johnson", therapy: "Respiratory Package", progress: 45, sessions: "3/8", nextSession: "Jan 24" },
-    { name: "Mike Chen", therapy: "Detox Program", progress: 90, sessions: "8/9", nextSession: "Jan 26" },
-    { name: "Emily Davis", therapy: "Digestive Wellness", progress: 30, sessions: "2/7", nextSession: "Jan 25" }
+    { name: "Khushi", therapy: "Basti Series", progress: 80, sessions: "5/6", nextSession: "Jan 25" },
+    { name: "Aaradhya", therapy: "Respiratory Package", progress: 45, sessions: "3/8", nextSession: "Jan 24" },
+    { name: "Aarohi", therapy: "Detox Program", progress: 90, sessions: "8/9", nextSession: "Jan 26" },
+    { name: "Rishika", therapy: "Digestive Wellness", progress: 30, sessions: "2/7", nextSession: "Jan 25" }
   ];
 
   return (

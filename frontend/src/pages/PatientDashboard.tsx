@@ -8,7 +8,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Calendar as CalendarIcon, Clock, User, Star, TrendingUp, Flower, LogOut, Plus, MapPin, Phone, AlertCircle } from "lucide-react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Calendar as CalendarIcon, Clock, User, Star, TrendingUp, Flower, LogOut, Plus, MapPin, Phone, AlertCircle, ChevronDown, MessageSquare } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import lotusIcon from "@/assets/lotus-icon.png";
@@ -36,6 +37,22 @@ interface TimeSlot {
   available: boolean;
 }
 
+interface SessionRating {
+  sessionId: string;
+  rating: number;
+  feedback: string;
+}
+
+interface Session {
+  id: string;
+  date: string;
+  therapy: string;
+  practitioner: string;
+  status: string;
+  rating: number;
+  feedback?: string;
+}
+
 const PatientDashboard = () => {
   const { toast } = useToast();
   const [selectedTherapy, setSelectedTherapy] = useState<string>("");
@@ -48,6 +65,8 @@ const PatientDashboard = () => {
   const [isRescheduleModalOpen, setIsRescheduleModalOpen] = useState(false);
   const [newDate, setNewDate] = useState("");
   const [newTime, setNewTime] = useState("");
+  const [sessionRatings, setSessionRatings] = useState<Record<string, SessionRating>>({});
+  const [expandedSessions, setExpandedSessions] = useState<Record<string, boolean>>({});
 
 
   const therapyTypes: TherapyType[] = [
@@ -133,10 +152,10 @@ const PatientDashboard = () => {
     location: "Wellness Center - Room 3"
   };
 
-  const recentSessions = [
-    { date: "2024-01-18", therapy: "Basti", practitioner: "Dr. Priya Sharma", status: "Completed", rating: 5 },
-    { date: "2024-01-11", therapy: "Virechana", practitioner: "Dr. Priya Sharma", status: "Completed", rating: 4 },
-    { date: "2024-01-04", therapy: "Basti", practitioner: "Dr. Priya Sharma", status: "Completed", rating: 5 },
+  const recentSessions: Session[] = [
+    { id: "session-1", date: "2024-01-18", therapy: "Basti", practitioner: "Dr. Priya Sharma", status: "Completed", rating: 5, feedback: "" },
+    { id: "session-2", date: "2024-01-11", therapy: "Virechana", practitioner: "Dr. Priya Sharma", status: "Completed", rating: 4, feedback: "" },
+    { id: "session-3", date: "2024-01-04", therapy: "Basti", practitioner: "Dr. Priya Sharma", status: "Completed", rating: 5, feedback: "" },
   ];
 
   const mlRecommendations = [
@@ -184,6 +203,74 @@ const PatientDashboard = () => {
 
   const selectedTherapyDetails = therapyTypes.find(t => t.id === selectedTherapy);
 
+   const handleRatingChange = (sessionId: string, newRating: number) => {
+    setSessionRatings(prev => ({
+      ...prev,
+      [sessionId]: {
+        sessionId,
+        rating: newRating,
+        feedback: prev[sessionId]?.feedback || ""
+      }
+    }));
+  };
+
+  const handleFeedbackChange = (sessionId: string, feedback: string) => {
+    setSessionRatings(prev => ({
+      ...prev,
+      [sessionId]: {
+        sessionId,
+        rating: prev[sessionId]?.rating || 0,
+        feedback
+      }
+    }));
+  };
+
+  const handleSaveRatingFeedback = (sessionId: string) => {
+    const ratingData = sessionRatings[sessionId];
+    if (ratingData && ratingData.rating > 0) {
+      toast({
+        title: "Rating Saved",
+        description: "Your rating and feedback have been saved successfully.",
+      });
+      // Here you would typically save to your backend
+    } else {
+      toast({
+        title: "Please provide a rating",
+        description: "Please select a star rating before saving.",
+      });
+    }
+  };
+
+  const toggleSessionExpansion = (sessionId: string) => {
+    setExpandedSessions(prev => ({
+      ...prev,
+      [sessionId]: !prev[sessionId]
+    }));
+  };
+
+  const StarRating = ({ sessionId, currentRating }: { sessionId: string, currentRating: number }) => {
+    const sessionRating = sessionRatings[sessionId]?.rating || currentRating;
+    
+    return (
+      <div className="flex items-center gap-1">
+        {[...Array(5)].map((_, i) => (
+          <Star
+            key={i}
+            className={`h-4 w-4 cursor-pointer transition-colors ${
+              i < sessionRating 
+                ? "text-primary fill-primary hover:text-primary/80" 
+                : "text-muted-foreground hover:text-primary/50"
+            }`}
+            onClick={() => handleRatingChange(sessionId, i + 1)}
+          />
+        ))}
+        <span className="text-sm text-muted-foreground ml-2">
+          {sessionRating > 0 ? `${sessionRating}/5` : "Rate this session"}
+        </span>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gradient-subtle relative">
       <div 
@@ -201,7 +288,7 @@ const PatientDashboard = () => {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <User className="h-5 w-5 text-muted-foreground" />
-              <span className="text-foreground font-medium">John Doe</span>
+              <span className="text-foreground font-medium">Khushi</span>
             </div>
             <Link to="/">
               <Button variant="ghost" size="sm">
@@ -215,7 +302,7 @@ const PatientDashboard = () => {
 
       <div className="container mx-auto px-4 py-8 relative z-10">
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-foreground mb-2">Welcome back, John!</h2>
+          <h2 className="text-3xl font-bold text-foreground mb-2">Welcome back, Khushi!</h2>
           <p className="text-muted-foreground">Continue your wellness journey with personalized Panchakarma therapy</p>
         </div>
 
@@ -437,36 +524,80 @@ const PatientDashboard = () => {
             <Card className="shadow-card border-border/50">
               <CardHeader>
                 <CardTitle>Recent Sessions</CardTitle>
-                <CardDescription>Your therapy history and progress</CardDescription>
+                <CardDescription>Your therapy history and progress - Rate and review your completed sessions</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {recentSessions.map((session, index) => (
-                    <div key={index} className="flex items-center justify-between p-4 rounded-lg bg-secondary/20 border border-border/30">
-                      <div className="flex items-center gap-4">
-                        <div className="bg-primary/10 rounded-full p-2">
-                          <Flower className="h-4 w-4 text-primary" />
+                  {recentSessions.map((session) => (
+                    <div key={session.id} className="border border-border/30 rounded-lg overflow-hidden">
+                      <Collapsible 
+                        open={expandedSessions[session.id]} 
+                        onOpenChange={() => toggleSessionExpansion(session.id)}
+                      >
+                        <div className="flex items-center justify-between p-4 bg-secondary/20">
+                          <div className="flex items-center gap-4">
+                            <div className="bg-primary/10 rounded-full p-2">
+                              <Flower className="h-4 w-4 text-primary" />
+                            </div>
+                            <div>
+                              <h4 className="font-medium text-foreground">{session.therapy}</h4>
+                              <p className="text-sm text-muted-foreground">{session.date} • {session.practitioner}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <Badge variant="secondary" className="bg-accent text-accent-foreground">
+                              {session.status}
+                            </Badge>
+                            <CollapsibleTrigger asChild>
+                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                                <ChevronDown className={`h-4 w-4 transition-transform ${
+                                  expandedSessions[session.id] ? "rotate-180" : ""
+                                }`} />
+                              </Button>
+                            </CollapsibleTrigger>
+                          </div>
                         </div>
-                        <div>
-                          <h4 className="font-medium text-foreground">{session.therapy}</h4>
-                          <p className="text-sm text-muted-foreground">{session.date} • {session.practitioner}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <Badge variant="secondary" className="bg-accent text-accent-foreground">
-                          {session.status}
-                        </Badge>
-                        <div className="flex items-center gap-1">
-                          {[...Array(5)].map((_, i) => (
-                            <Star
-                              key={i}
-                              className={`h-4 w-4 ${
-                                i < session.rating ? "text-primary fill-primary" : "text-muted-foreground"
-                              }`}
-                            />
-                          ))}
-                        </div>
-                      </div>
+                        
+                        <CollapsibleContent>
+                          <div className="p-4 bg-card border-t border-border/30 space-y-4">
+                            {/* Interactive Rating */}
+                            <div className="space-y-2">
+                              <Label className="text-sm font-medium flex items-center gap-2">
+                                <Star className="h-4 w-4" />
+                                Rate this session
+                              </Label>
+                              <StarRating sessionId={session.id} currentRating={session.rating} />
+                            </div>
+                            
+                            {/* Feedback Section */}
+                            <div className="space-y-2">
+                              <Label className="text-sm font-medium flex items-center gap-2">
+                                <MessageSquare className="h-4 w-4" />
+                                Your feedback
+                              </Label>
+                              <Textarea
+                                placeholder="Share your experience with this therapy session..."
+                                value={sessionRatings[session.id]?.feedback || session.feedback || ""}
+                                onChange={(e) => handleFeedbackChange(session.id, e.target.value)}
+                                rows={3}
+                                className="resize-none"
+                              />
+                            </div>
+                            
+                            {/* Save Button */}
+                            <div className="flex justify-end">
+                              <Button
+                                variant="wellness"
+                                size="sm"
+                                onClick={() => handleSaveRatingFeedback(session.id)}
+                                disabled={!sessionRatings[session.id]?.rating}
+                              >
+                                Save Rating & Feedback
+                              </Button>
+                            </div>
+                          </div>
+                        </CollapsibleContent>
+                      </Collapsible>
                     </div>
                   ))}
                 </div>

@@ -32,7 +32,7 @@ const PractitionerDashboard = () => {
     { 
       id: 2, 
       time: "10:30 AM", 
-      patient: "Aaradhya", 
+      patient: "Aradhya", 
       therapy: "Nasya", 
       duration: "45 min", 
       status: "completed", 
@@ -85,7 +85,7 @@ const PractitionerDashboard = () => {
 
   const recentPatients = [
     { name: "Khushi", therapy: "Basti Series", progress: 80, sessions: "5/6", nextSession: "Jan 25" },
-    { name: "Aaradhya", therapy: "Respiratory Package", progress: 45, sessions: "3/8", nextSession: "Jan 24" },
+    { name: "Aradhya", therapy: "Respiratory Package", progress: 45, sessions: "3/8", nextSession: "Jan 24" },
     { name: "Aarohi", therapy: "Detox Program", progress: 90, sessions: "8/9", nextSession: "Jan 26" },
     { name: "Rishika", therapy: "Digestive Wellness", progress: 30, sessions: "2/7", nextSession: "Jan 25" }
   ];

@@ -2,16 +2,19 @@ const express = require("express");
 const dotenv = require("dotenv");
 const pool = require("./db");
 
+
+
 dotenv.config();
 const app = express();
 
 app.use(express.json());
 
 // Import routes
+const feedbackRoutes = require("./routes/feedback");
 const patientRoutes = require("./routes/patients");
 const therapistRoutes = require("./routes/therapists");
 const appointmentRoutes = require("./routes/appointments");
-
+app.use("/feedback", feedbackRoutes);
 app.use("/patients", patientRoutes);
 app.use("/therapists", therapistRoutes);
 app.use("/appointments", appointmentRoutes);

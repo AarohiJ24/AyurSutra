@@ -145,7 +145,7 @@ const PatientDashboard = () => {
   ];
 
   const upcomingSession = {
-    date: "2024-01-25",
+    date: "2025-09-19",
     time: "10:00 AM",
     therapy: "Basti",
     practitioner: "Dr. Priya Sharma",
@@ -153,9 +153,9 @@ const PatientDashboard = () => {
   };
 
   const recentSessions: Session[] = [
-    { id: "session-1", date: "2024-01-18", therapy: "Basti", practitioner: "Dr. Priya Sharma", status: "Completed", rating: 5, feedback: "" },
-    { id: "session-2", date: "2024-01-11", therapy: "Virechana", practitioner: "Dr. Priya Sharma", status: "Completed", rating: 4, feedback: "" },
-    { id: "session-3", date: "2024-01-04", therapy: "Basti", practitioner: "Dr. Priya Sharma", status: "Completed", rating: 5, feedback: "" },
+    { id: "session-1", date: "2025-09-18", therapy: "Basti", practitioner: "Dr. Priya Sharma", status: "Completed", rating: 5, feedback: "" },
+    { id: "session-2", date: "2025-09-11", therapy: "Virechana", practitioner: "Dr. Priya Sharma", status: "Completed", rating: 4, feedback: "" },
+    { id: "session-3", date: "2025-09-04", therapy: "Basti", practitioner: "Dr. Priya Sharma", status: "Completed", rating: 5, feedback: "" },
   ];
 
   const mlRecommendations = [

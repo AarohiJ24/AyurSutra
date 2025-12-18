@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../db");
 
-// Schedule an appointment
+
 router.post("/", async (req, res) => {
   try {
     const { patient_id, therapist_id, therapy_id, appointment_date, appointment_time } = req.body;

@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require("../db");
 const bcrypt = require("bcrypt");
 
-// Register therapist
+
 router.post("/register", async (req, res) => {
   try {
     const { name, specialization, availability, password } = req.body;
@@ -21,7 +21,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// Get therapist's weekly schedule
+
 router.get("/:id/schedule", async (req, res) => {
   try {
     const [rows] = await db.query(

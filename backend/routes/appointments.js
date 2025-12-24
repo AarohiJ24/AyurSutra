@@ -5,7 +5,7 @@ const db = require("../db");
 
 router.post("/", async (req, res) => {
   try {
-    const { patient_id, therapist_id, therapy_id, appointment_date, appointment_time } = req.body;
+    const {patient_id, therapist_id, therapy_id, appointment_date, appointment_time } = req.body;
 
     await db.query(
       "INSERT INTO appointments (patient_id, therapist_id, therapy_id, appointment_date, appointment_time) VALUES (?, ?, ?, ?, ?)",
@@ -19,7 +19,7 @@ router.post("/", async (req, res) => {
   }
 })
 
-// Get patient appointments
+
 router.get("/patient/:id", async (req, res) => {
   try {
     const [rows] = await db.query(
@@ -27,9 +27,10 @@ router.get("/patient/:id", async (req, res) => {
       [req.params.id]
     );
     res.json(rows);
-  } catch (error) {
+  } catch  (error) {
     res.status(500).json({ error: "Failed to fetch appointments" });
   }
 });
 
 module.exports = router;
+

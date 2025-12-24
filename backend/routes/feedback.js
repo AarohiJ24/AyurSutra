@@ -10,7 +10,7 @@ router.post("/analyze", async (req, res) => {
     if (!feedback) return res.status(400).json({ error: "Feedback text required" });
 
     const result = sentiment.analyze(feedback);
-    let category = "Neutral";
+    
 
     if (result.score > 1) category = "Positive";
     else if (result.score < -1) category = "Warning";

@@ -15,7 +15,7 @@ router.post("/register", async (req, res) => {
     );
 
     res.status(201).json({ message: "Therapist registered successfully" });
-  } catch (error) {
+  } catch (error){
     console.error(error);
     res.status(500).json({ error: "Failed to register therapist" });
   }
